@@ -13,7 +13,7 @@ provisionerRoutes.route('/guid').get(function (req, res) {
                   if (err) throw err;
                   console.log(data);
          //var guidString = data.replace(/['"]+/g, '');
-  return res.send(data);
+  return res.json(data);
   });
 });
 
@@ -25,7 +25,7 @@ provisionerRoutes.route('/guid/create/:id').post(function (req, res) {
         return console.log(err);
     }else{
       console.log("The file was saved!");
-    return res.send("The file was saved");
+    return res.send(["The file was saved"]);
   }
   });
 
