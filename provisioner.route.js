@@ -6,21 +6,73 @@ const fs = require('fs');
 config = require('./config');
 
 
+
+
+
+// Defined get data(index or listing) route
+provisionerRoutes.route('/uuid').get(function (req, res) {
+  //TODO read guid
+  console.log("path: " + config.filepath);
+  try {
+    if (fs.existsSync(config.filepath + 'uuid')) {
+      fs.readFile(config.filepath + 'uuid', "utf-8", function (err, data) {
+                      if (err) throw err;
+
+                      console.log(data);
+      return res.json(data);
+      });
+    } else {
+      //Guid file doesnt exist, ignore.
+      return null;
+    }
+  } catch(err) {
+    console.log(err);
+  }
+
+});
+
+
+
 // Defined get data(index or listing) route
 provisionerRoutes.route('/guid').get(function (req, res) {
   //TODO read guid
-  fs.readFile('/usr/local/provisioner/guid', "utf-8", function (err, data) {
-                  if (err) throw err;
-                  console.log(data);
-         //var guidString = data.replace(/['"]+/g, '');
-  return res.json(data);
-  });
+  console.log("path: " + config.filepath);
+  try {
+    if (fs.existsSync(config.filepath + 'guid')) {
+      fs.readFile(config.filepath + 'guid', "utf-8", function (err, data) {
+                      if (err) throw err;
+
+                      console.log(data);
+      return res.json(data);
+      });
+    } else {
+      //Guid file doesnt exist, ignore.
+      return null;
+    }
+  } catch(err) {
+    console.log(err);
+  }
+
 });
 
 //  Defined update route
-provisionerRoutes.route('/guid/create/:id').post(function (req, res) {
+provisionerRoutes.route('/create/guid/:id').post(function (req, res) {
   //TODO create write of guid
-  fs.writeFile("/usr/local/provisioner/guid", req.params.id, function(err) {
+  fs.writeFile(config.filepath + 'guid', req.params.id, function(err) {
+    if(err) {
+        return console.log(err);
+    }else{
+      console.log("The file was saved!");
+    return res.send(["The file was saved"]);
+  }
+  });
+
+});
+
+//  Defined update route
+provisionerRoutes.route('/create/uuid/:id').post(function (req, res) {
+  //TODO create write of guid
+  fs.writeFile(config.filepath + 'uuid', req.params.id, function(err) {
     if(err) {
         return console.log(err);
     }else{
