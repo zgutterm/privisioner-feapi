@@ -55,6 +55,25 @@ provisionerRoutes.route('/guid').get(function (req, res) {
 
 });
 
+
+provisionerRoutes.route('/delete/uuid').delete(function (req, res) {
+  //TODO read guid
+  try {
+    if (fs.existsSync(config.filepath + 'uuid')) {
+      try {
+        fs.unlinkSync(config.filepath + 'uuid') 
+      } catch (err) {
+        console.log(err);
+      }
+    } else {
+      console.log("file doesn't exist");
+    }
+  } catch(err) {
+    console.log(err);
+  }
+
+});
+
 //  Defined update route
 provisionerRoutes.route('/create/guid/:id').post(function (req, res) {
   //TODO create write of guid
